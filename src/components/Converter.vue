@@ -1,35 +1,43 @@
 <template>
   <div class="container">
     <h3>Cryptocurrency Conversion</h3>
-    <div>
-      <label for="example-datepicker">Choose a date</label>
-      <b-form-datepicker
-        id="example-datepicker"
-        v-model="date"
-        class="mb-2"
-      ></b-form-datepicker>
-    </div>
 
     <div>
-      <b-form-group label="Cryptocurrency" label-for="coin">
-        <b-form-select id="coin" v-model="coin">
-          <option v-for="name in tokenData" :key="name">
-            {{ name }}
-          </option>
-        </b-form-select>
-      </b-form-group>
+      <b-form>
+        <div>
+          <label for="datepicker">Choose a date</label>
+          <b-form-datepicker
+            id="datepicker"
+            v-model="date"
+            class="mb-2"
+          ></b-form-datepicker>
+
+          <b-form-group label="Cryptocurrency" label-for="coin">
+            <b-form-select id="coin" v-model="coin.symbol" required>
+              <option v-for="name in Object.keys(tokenData)" :key="name">
+                {{ name }}
+              </option>
+            </b-form-select>
+          </b-form-group>
+
+          <b-form-group label="Currency" label-for="currency">
+            <b-form-select id="currency" v-model="currency">
+              <option>USD</option>
+              <option>EUR</option>
+              <option>JPY</option>
+            </b-form-select>
+          </b-form-group>
+        </div>
+        <div>
+          <b-button type="button" v-on:click="convert" variant="success"
+            >Convert</b-button
+          >
+        </div>
+      </b-form>
     </div>
-    <div>
-      <b-form-group label="Currency" label-for="currency">
-        <b-form-select id="currency" v-model="currency">
-          <option>USD</option>
-          <option>EUR</option>
-          <option>JPY</option>
-        </b-form-select>
-      </b-form-group>
-    </div>
-    <div>
-      <b-button type="submit" variant="success">Convert</b-button>
+    <div class="result-container">
+      <p id="resultMsg" v-show="conversionCompleted">{{ convertedResult }}</p>
+      <p id="resultMsg" v-show="!conversionCompleted">{{ convertedResult }}</p>
     </div>
   </div>
 </template>
@@ -41,8 +49,13 @@ export default {
     return {
       date: "",
       tokenData: { data: [] },
-      coin: null,
-      currency: null,
+      coin: {
+        symbol: "",
+        price: "",
+      },
+      currency: "",
+      conversionCompleted: false,
+      convertedResult: "",
     };
   },
   created() {
@@ -52,8 +65,28 @@ export default {
       )
       .then((response) => {
         this.tokenData = response.data;
+        console.log(response.data)
       })
       .catch((error) => console.log(error));
+  },
+  methods: {
+    convert() {
+  let coin = this.coin.symbol;
+  let currency = this.currency
+      let value = this.tokenData + "." + coin + "." + currency
+      if (this.coin.symbol !== "" && this.currency !== "") {
+        this.conversionCompleted = true;
+        this.convertedResult =
+          "The value of " +
+          coin +
+          " is  " + value;
+          console.log(this.tokenData.BTC.USD)
+          
+      }
+      if (this.coin.symbol == "" || this.currency == "") {
+        this.convertedResult = "Please choose both currencies";
+      }
+    },
   },
 };
 </script>
@@ -62,13 +95,25 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;400;600&display=swap");
 .container {
   padding: 25px;
+  max-height: 40%;
   width: 30%;
   align-items: center;
   border: 2px solid #00c486;
   border-radius: 5px;
+  overflow: hidden;
 }
 h3 {
   font-family: "Open Sans", sans-serif;
+  margin-bottom: 50px;
+}
+.result-container {
   margin-bottom: 20px;
+  margin-top: 20px;
+  height: 5%;
+  overflow: hidden;
+}
+#resultMsg {
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
 }
 </style>
