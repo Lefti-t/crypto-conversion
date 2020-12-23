@@ -77,23 +77,26 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
-   convert() {
-        let coin = this.coin.symbol;
-        let currency = this.currency;
-          let amount = this.coin.amount;
-      let value = numeral(this.tokenData[coin][currency] * amount).format("0,000.000a") + currency;
-        if (!this.coin || !this.coin.symbol || this.coin.symbol === "" || !this.currency || this.currency === "") {
-            this.convertedResult = "Please choose both currencies";
-        } else {
-           
-            this.conversionCompleted = true;
-            this.convertedResult =
-            "The value of " +
-            coin + 
-            " is  " + value;
-        }
+    convert() {
+      let coin = this.coin.symbol;
+      let currency = this.currency;
+      let amount = this.coin.amount;
+      let value =
+        numeral(this.tokenData[coin][currency] * amount).format("0,000.000a") +
+        currency;
+      if (
+        !this.coin ||
+        !this.coin.symbol ||
+        this.coin.symbol === "" ||
+        !this.currency ||
+        this.currency === ""
+      ) {
+        this.convertedResult = "Please choose both currencies";
+      } else {
+        this.conversionCompleted = true;
+        this.convertedResult = "The value of " + coin + " is  " + value;
+      }
     },
-    
   },
 };
 </script>
@@ -107,7 +110,7 @@ export default {
   border: 2px solid #00c486;
   border-radius: 5px;
   overflow: hidden;
-  background:  #f3f5f5 ;
+  background: #f3f5f5;
 }
 h3 {
   font-family: "Open Sans", sans-serif;
@@ -123,16 +126,16 @@ h3 {
 #resultMsg {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
-    text-align: center;
+  text-align: center;
 }
 #resultErrorMsg {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
   color: red;
-    text-align: center;
+  text-align: center;
 }
-.convertButton{
-    display: flex;
+.convertButton {
+  display: flex;
   justify-content: center;
   align-items: center;
 }
