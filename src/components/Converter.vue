@@ -69,7 +69,7 @@ export default {
   created() {
     axios
       .get(
-        "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,LINK&tsyms=USD,EUR,JPY&api_key={96936126838cab0007ad9857056a9a4c40c16f0d50eaf42927c07e2abb2262ad}"
+        "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,LINK,XRP,LTC,ETC&tsyms=USD,EUR,JPY&api_key={96936126838cab0007ad9857056a9a4c40c16f0d50eaf42927c07e2abb2262ad}"
       )
       .then((response) => {
         this.tokenData = response.data;
@@ -77,19 +77,21 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
-    convert() {
-      let amount = this.coin.amount;
-      let coin = this.coin.symbol;
-      let currency = this.currency;
+   convert() {
+        let coin = this.coin.symbol;
+        let currency = this.currency;
+          let amount = this.coin.amount;
       let value = numeral(this.tokenData[coin][currency] * amount).format("0,000.000a") + currency;
-      if (coin == "" || currency == "" || amount == "") {
-        this.conversionCompleted = false;
-        this.convertedResult = "Please choose both currencies";
-      }
-      if (this.coin.symbol !== "" && this.currency !== "") {
-        this.conversionCompleted = true;
-        this.convertedResult = "The value of " + amount + " "  + coin + " is  " + value;
-      }
+        if (!this.coin || !this.coin.symbol || this.coin.symbol === "" || !this.currency || this.currency === "") {
+            this.convertedResult = "Please choose both currencies";
+        } else {
+           
+            this.conversionCompleted = true;
+            this.convertedResult =
+            "The value of " +
+            coin + 
+            " is  " + value;
+        }
     },
     
   },
