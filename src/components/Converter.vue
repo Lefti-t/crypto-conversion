@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h3>Cryptocurrency Conversion</h3>
-
     <div>
       <b-form>
         <div>
@@ -13,13 +12,19 @@
           ></b-form-datepicker>
 
           <b-form-group label="Cryptocurrency" label-for="coin">
-            <b-form-select id="coin" v-model="coin.symbol" >
+            <b-form-select id="coin" v-model="coin.symbol">
               <option v-for="name in Object.keys(tokenData)" :key="name">
                 {{ name }}
               </option>
             </b-form-select>
           </b-form-group>
-
+          <b-form-group label="Amount" label-for="amount">
+            <b-form-input
+              v-model="coin.amount"
+              id="amount"
+              type="number"
+            ></b-form-input>
+          </b-form-group>
           <b-form-group label="Currency" label-for="currency">
             <b-form-select id="currency" v-model="currency">
               <option>USD</option>
@@ -28,7 +33,7 @@
             </b-form-select>
           </b-form-group>
         </div>
-        <div>
+        <div class="convertButton">
           <b-button type="button" v-on:click="convert" variant="success"
             >Convert</b-button
           >
@@ -37,13 +42,16 @@
     </div>
     <div class="result-container">
       <p id="resultMsg" v-show="conversionCompleted">{{ convertedResult }}</p>
-      <p id="resultErrorMsg" v-show="!conversionCompleted">{{ convertedResult }}</p>
+      <p id="resultErrorMsg" v-show="!conversionCompleted">
+        {{ convertedResult }}
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import numeral from "numeral";
 export default {
   data() {
     return {
@@ -51,6 +59,7 @@ export default {
       tokenData: { data: [] },
       coin: {
         symbol: "",
+        amount: "",
       },
       currency: "",
       conversionCompleted: false,
@@ -69,18 +78,20 @@ export default {
   },
   methods: {
     convert() {
+      let amount = this.coin.amount;
       let coin = this.coin.symbol;
       let currency = this.currency;
-      let value = this.tokenData[coin][currency] + currency;
-      if (this.coin.symbol === "" || this.currency === "" ){
-            this.conversionCompleted = false;
+      let value = numeral(this.tokenData[coin][currency] * amount).format("0,000.000a") + currency;
+      if (coin == "" || currency == "" || amount == "") {
+        this.conversionCompleted = false;
         this.convertedResult = "Please choose both currencies";
       }
       if (this.coin.symbol !== "" && this.currency !== "") {
         this.conversionCompleted = true;
-        this.convertedResult = "The value of " + coin + " is  " + value;
+        this.convertedResult = "The value of " + amount + " "  + coin + " is  " + value;
       }
     },
+    
   },
 };
 </script>
@@ -88,17 +99,18 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;400;600&display=swap");
 .container {
-  padding: 25px;
-  height: 50%;
-  width: 30%;
+  padding: 15px;
+  width: 40%;
   align-items: center;
   border: 2px solid #00c486;
   border-radius: 5px;
   overflow: hidden;
+  background:  #f3f5f5 ;
 }
 h3 {
   font-family: "Open Sans", sans-serif;
   margin-bottom: 50px;
+  text-align: center;
 }
 .result-container {
   margin-bottom: 20px;
@@ -109,10 +121,17 @@ h3 {
 #resultMsg {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
+    text-align: center;
 }
 #resultErrorMsg {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
   color: red;
+    text-align: center;
+}
+.convertButton{
+    display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
