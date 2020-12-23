@@ -93,7 +93,7 @@ export default {
         let value =
           numeral(this.tokenData[coin][currency] * amount).format(
             "0,000.000a"
-          ) + currency;
+          ) + " " + currency;
         this.conversionCompleted = true;
         this.convertedResult = "The value of " + coin + " is  " + value;
 
