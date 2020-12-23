@@ -13,7 +13,7 @@
           ></b-form-datepicker>
 
           <b-form-group label="Cryptocurrency" label-for="coin">
-            <b-form-select id="coin" v-model="coin.symbol" required>
+            <b-form-select id="coin" v-model="coin.symbol" >
               <option v-for="name in Object.keys(tokenData)" :key="name">
                 {{ name }}
               </option>
@@ -37,7 +37,7 @@
     </div>
     <div class="result-container">
       <p id="resultMsg" v-show="conversionCompleted">{{ convertedResult }}</p>
-      <p id="resultMsg" v-show="!conversionCompleted">{{ convertedResult }}</p>
+      <p id="resultErrorMsg" v-show="!conversionCompleted">{{ convertedResult }}</p>
     </div>
   </div>
 </template>
@@ -51,7 +51,6 @@ export default {
       tokenData: { data: [] },
       coin: {
         symbol: "",
-        price: "",
       },
       currency: "",
       conversionCompleted: false,
@@ -65,26 +64,21 @@ export default {
       )
       .then((response) => {
         this.tokenData = response.data;
-        console.log(response.data)
       })
       .catch((error) => console.log(error));
   },
   methods: {
     convert() {
-  let coin = this.coin.symbol;
-  let currency = this.currency
-      let value = this.tokenData + "." + coin + "." + currency
+      let coin = this.coin.symbol;
+      let currency = this.currency;
+      let value = this.tokenData[coin][currency] + currency;
+      if (this.coin.symbol === "" || this.currency === "" ){
+            this.conversionCompleted = false;
+        this.convertedResult = "Please choose both currencies";
+      }
       if (this.coin.symbol !== "" && this.currency !== "") {
         this.conversionCompleted = true;
-        this.convertedResult =
-          "The value of " +
-          coin +
-          " is  " + value;
-          console.log(this.tokenData.BTC.USD)
-          
-      }
-      if (this.coin.symbol == "" || this.currency == "") {
-        this.convertedResult = "Please choose both currencies";
+        this.convertedResult = "The value of " + coin + " is  " + value;
       }
     },
   },
@@ -95,7 +89,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;400;600&display=swap");
 .container {
   padding: 25px;
-  max-height: 40%;
+  height: 50%;
   width: 30%;
   align-items: center;
   border: 2px solid #00c486;
@@ -115,5 +109,10 @@ h3 {
 #resultMsg {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
+}
+#resultErrorMsg {
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  color: red;
 }
 </style>
