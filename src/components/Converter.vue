@@ -78,12 +78,9 @@ export default {
   },
   methods: {
     convert() {
+      let amount = this.coin.amount;
       let coin = this.coin.symbol;
       let currency = this.currency;
-      let amount = this.coin.amount;
-      let value =
-        numeral(this.tokenData[coin][currency] * amount).format("0,000.000a") +
-        currency;
       if (
         !this.coin ||
         !this.coin.symbol ||
@@ -93,8 +90,14 @@ export default {
       ) {
         this.convertedResult = "Please choose both currencies";
       } else {
+        let value =
+          numeral(this.tokenData[coin][currency] * amount).format(
+            "0,000.000a"
+          ) + currency;
         this.conversionCompleted = true;
         this.convertedResult = "The value of " + coin + " is  " + value;
+
+        console.log(this.tokenData.BTC.USD);
       }
     },
   },
