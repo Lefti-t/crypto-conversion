@@ -100,8 +100,6 @@ export default {
         this.conversionCompleted = true;
         this.convertedResult =
           "The value of " + amount + " " + coin + " is  " + value;
-
-        console.log(this.tokenData.BTC.USD);
       }
     },
   },
@@ -112,6 +110,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;400;600&display=swap");
 .container {
   padding: 15px;
+  margin-top: -2%;
   width: 40%;
   height: 90%;
   align-items: center;
@@ -119,7 +118,7 @@ export default {
   border-radius: 5px;
   overflow: hidden;
   background: #f3f5f5;
-    box-shadow: 0px 0px 8px 0px #00c486;
+  box-shadow: 0px 0px 8px 0px #00c486;
 }
 h3 {
   font-family: "Open Sans", sans-serif;
@@ -146,5 +145,8 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.btn-success {
+  background: #00c486;
 }
 </style>
