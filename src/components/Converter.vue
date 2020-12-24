@@ -85,17 +85,21 @@ export default {
         !this.coin ||
         !this.coin.symbol ||
         this.coin.symbol === "" ||
+        this.amount === "" ||
         !this.currency ||
         this.currency === ""
       ) {
-        this.convertedResult = "Please choose both currencies";
+        this.convertedResult = "Please choose both currencies and an amount.";
       } else {
         let value =
           numeral(this.tokenData[coin][currency] * amount).format(
             "0,000.000a"
-          ) + " " + currency;
+          ) +
+          " " +
+          currency;
         this.conversionCompleted = true;
-        this.convertedResult = "The value of " + coin + " is  " + value;
+        this.convertedResult =
+          "The value of " + amount + " " + coin + " is  " + value;
 
         console.log(this.tokenData.BTC.USD);
       }
@@ -109,6 +113,7 @@ export default {
 .container {
   padding: 15px;
   width: 40%;
+  height: 90%;
   align-items: center;
   border: 2px solid #00c486;
   border-radius: 5px;
@@ -120,11 +125,12 @@ h3 {
   margin-bottom: 50px;
   text-align: center;
 }
+.b-form-btn-label-control.form-control {
+    overflow: hidden;
+}
 .result-container {
-  margin-bottom: 20px;
   margin-top: 20px;
-  height: 5%;
-  overflow: hidden;
+  height: 50px;
 }
 #resultMsg {
   font-family: "Open Sans", sans-serif;
