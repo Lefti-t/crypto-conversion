@@ -119,15 +119,14 @@ export default {
   border-radius: 5px;
   overflow: hidden;
   background: #f3f5f5;
+    box-shadow: 0px 0px 8px 0px #00c486;
 }
 h3 {
   font-family: "Open Sans", sans-serif;
   margin-bottom: 50px;
   text-align: center;
 }
-.b-form-btn-label-control.form-control {
-    overflow: hidden;
-}
+
 .result-container {
   margin-top: 20px;
   height: 50px;
