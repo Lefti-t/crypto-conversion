@@ -97,6 +97,7 @@ export default {
           ) +
           " " +
           currency;
+
         this.conversionCompleted = true;
         this.convertedResult =
           "The value of " + amount + " " + coin + " is  " + value;
@@ -110,7 +111,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;400;600&display=swap");
 .container {
   padding: 15px;
-  margin-top: -2%;
+  margin-top: 2%;
   width: 40%;
   height: 90%;
   align-items: center;

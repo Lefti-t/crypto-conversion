@@ -1,6 +1,5 @@
 <template>
   <div> 
-    <img alt="logo" src="./assets/logo.png" height="100"> 
     <router-view></router-view>
     </div>
 </template>
